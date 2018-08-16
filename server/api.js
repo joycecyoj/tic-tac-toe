@@ -27,7 +27,7 @@ router.post('/game', (req, res, next) => {
 });
 
 
-router.get('/board', (req, res, next) => {
+router.get('/', (req, res, next) => {
   try {
     let positionIdx;
     const tempBoard = req.query.board;
