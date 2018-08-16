@@ -9,19 +9,16 @@ class Game {
   }
 }
 
-// /api
 router.post('/game', (req, res, next) => {
   try {
     const game = new Game();
     const player = req.body.player;
     let positionIdx;
     if (player === this.player) {
-      // send empty board
       res.status(201).send(changePlusToSpace(game.board));
     } else {
       positionIdx = getPosition(game.board);
       res.status(201).send(changePlusToSpace(move(game.board, positionIdx)));
-      // move(game.board, positionIdx)
       this.player = 'player';
     }
   } catch (error) {
@@ -30,7 +27,6 @@ router.post('/game', (req, res, next) => {
 });
 
 
-// /api/board?board=+xxo++o++
 router.get('/board', (req, res, next) => {
   try {
     let positionIdx;
@@ -42,7 +38,6 @@ router.get('/board', (req, res, next) => {
 
       positionIdx = getPosition(tempBoard);
       let newBoard = changePlusToSpace(move(tempBoard, positionIdx))
-      // move(tempBoard, positionIdx)
       if (checkWinner(newBoard, 'computer')) {
         res.write(newBoard);
         res.write(' Computer Wins!')
@@ -65,7 +60,6 @@ router.use((req, res, next) => {
   next(err);
 });
 
-// Helper functions
 function changePlusToSpace(str) {
   let final = '';
   for (let i = 0; i < str.length; i++) {
@@ -79,7 +73,6 @@ function changePlusToSpace(str) {
 }
 
 function move(board, positionIdx) {
-  // slice board add marker
   console.log('board received in move', board);
   console.log('positonIdx received in move', positionIdx);
   let marker = 'o';
@@ -87,14 +80,10 @@ function move(board, positionIdx) {
   let secondPartBoard = board.slice(positionIdx + 1);
   let newBoard = firstPartBoard + marker + secondPartBoard;
 
-  // console.log('board 1---', firstPartBoard);
-  // console.log('board 2---', secondPartBoard);
-
   console.log('newBoard from move---', newBoard);
   return newBoard;
 }
 
-// returns random position based on open spots on board
 function getPosition(board) {
   console.log('board in getPosition---', board);
   let openPositionsIdxArr = [];
