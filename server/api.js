@@ -31,11 +31,8 @@ router.get('/board', (req, res, next) => {
   try {
     let positionIdx;
     const tempBoard = req.query.board;
-    console.log('tempboard', tempBoard);
 
     if (!checkWinner(tempBoard, 'player')) {
-      console.log('checked players move');
-
       positionIdx = getPosition(tempBoard);
       let newBoard = changePlusToSpace(move(tempBoard, positionIdx))
       if (checkWinner(newBoard, 'computer')) {
@@ -45,7 +42,6 @@ router.get('/board', (req, res, next) => {
       } else {
         res.send(newBoard);
       }
-
     } else {
       res.send('You Won!');
     }
@@ -73,8 +69,6 @@ function changePlusToSpace(str) {
 }
 
 function move(board, positionIdx) {
-  console.log('board received in move', board);
-  console.log('positonIdx received in move', positionIdx);
   let marker = 'o';
   let firstPartBoard = board.slice(0, positionIdx);
   let secondPartBoard = board.slice(positionIdx + 1);
@@ -85,7 +79,6 @@ function move(board, positionIdx) {
 }
 
 function getPosition(board) {
-  console.log('board in getPosition---', board);
   let openPositionsIdxArr = [];
   let positionIdx;
 
@@ -94,9 +87,7 @@ function getPosition(board) {
       openPositionsIdxArr.push(i);
     }
   }
-  console.log('openPositionsIdxArr', openPositionsIdxArr);
   positionIdx = getRandomIdx(0, openPositionsIdxArr.length);
-  console.log('positionIdx------', positionIdx);
   return openPositionsIdxArr[positionIdx];
 }
 
@@ -106,8 +97,6 @@ function getRandomIdx(min, max) {
 
 
 function checkWinner(board, player) {
-  console.log('board in check winner', board);
-  console.log('player to check win', player);
   let marker;
   if (player === 'player') {
     marker = 'x';
@@ -121,7 +110,6 @@ function checkWinner(board, player) {
       selectionsToCheck.push(i);
     }
   }
-  console.log('selectionsToCheck in checkWinner', selectionsToCheck);
 
   if (selectionsToCheck.length < 3) {
     return false;
